@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DDX3X Italia — Wireframe nuova Home (bozza v2, direzione visiva)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<style>
+  :root{
+    /* palette dalla nuova proposta di logo: verde primario (marchio DDX3X) + viola secondario (testo "Associazione...ODV") */
+    --teal:#2FA84F;
+    --teal-dark:#6B4EA2;
+    --teal-mid:#52397F;
+    --purple:#6B4EA2;
+    --purple-dark:#4A3572;
+    --purple-light:#F2EFFF;
+    /* CTA: stesso verde del marchio, per un'unica azione riconoscibile */
+    --coral:#2FA84F;
+    --coral-dark:#1F7A38;
+    --coral-light:#E6F4EA;
+    --green-light:#60C166;
+    --cream:#FBF8F4;
+    --paper:#F3F1EC;
+    --ink:#211F2E;
+    --ink-soft:#5C5A6E;
+    --line:rgba(33,31,46,0.1);
+    --shadow:0 24px 48px rgba(46,33,80,0.16);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:'Inter',sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;overflow-x:hidden;}
+  h1,h2,h3,.display{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;width:100%;height:100%;object-fit:cover;}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px;}
+  .tag-mock{position:fixed;top:16px;right:16px;background:var(--ink);color:#fff;font-size:12px;padding:7px 14px;border-radius:999px;z-index:999;opacity:.9;font-family:'Inter',sans-serif;}
+
+  .ph{position:relative;overflow:hidden;background:var(--paper);}
+  .ph img{transition:transform 1.1s cubic-bezier(.16,1,.3,1);}
+  .ph::after{content:"";position:absolute;inset:0;background:var(--teal);mix-blend-mode:multiply;opacity:.55;}
+  .ph.coral::after{background:var(--coral-dark);opacity:.45;}
+  .ph.dark::after{background:linear-gradient(180deg, rgba(107,78,162,0) 0%, rgba(46,33,80,.82) 100%);mix-blend-mode:normal;opacity:1;}
+  a:hover .ph img, .zoom:hover .ph img{transform:scale(1.07);}
+
+  .btn{display:inline-flex;align-items:center;gap:10px;padding:16px 30px;border-radius:999px;font-weight:600;font-size:15px;font-family:'Inter';transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s;}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 14px 28px rgba(46,33,80,.22);}
+  .btn-primary{background:var(--coral);color:#fff;}
+  .btn-light{background:#fff;color:var(--teal-dark);}
+  .btn-outline{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6);}
+  .btn-outline-dark{background:transparent;color:var(--teal-dark);border:1.5px solid var(--teal-dark);}
+
+  /* reveal animation */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  .reveal-stagger.in > *{opacity:1;transform:translateY(0);}
+  .reveal-stagger > *{opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.16,1,.3,1), transform .8s cubic-bezier(.16,1,.3,1);}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:.05s;}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.16s;}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.27s;}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.38s;}
+
+  /* topbar + nav */
+  .topbar{background:var(--teal-dark);color:rgba(255,255,255,.85);font-size:12.5px;position:relative;z-index:60;}
+  .topbar .wrap{display:flex;justify-content:space-between;align-items:center;padding-top:9px;padding-bottom:9px;}
+  .topbar .socials{display:flex;gap:16px;}
+
+  header.main{position:sticky;top:0;z-index:50;background:transparent;transition:background .4s ease, box-shadow .4s ease, padding .3s ease;padding:6px 0;}
+  header.main.scrolled{background:rgba(251,246,236,.92);backdrop-filter:blur(10px);box-shadow:0 1px 0 var(--line);}
+  header.main .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;gap:24px;}
+  .logo{display:flex;align-items:center;gap:12px;font-weight:600;font-size:18px;color:#fff;transition:color .4s ease;}
+  header.main.scrolled .logo, header.main.scrolled nav.primary > a{color:var(--teal-dark);}
+  .logo .mark{width:40px;height:40px;border-radius:12px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'Fraunces';font-weight:700;font-size:14px;flex-shrink:0;}
+  nav.primary{display:flex;gap:30px;font-size:14.5px;font-weight:500;}
+  nav.primary > a{padding:8px 0;border-bottom:2px solid transparent;color:#fff;transition:color .4s ease, border-color .3s ease;}
+  nav.primary > a:hover{border-color:var(--coral);}
+
+  /* hero */
+  .hero{position:relative;height:92vh;min-height:600px;display:flex;align-items:flex-end;margin-top:-84px;overflow:hidden;}
+  .hero-slider{position:absolute;inset:0;}
+  .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.6s cubic-bezier(.4,0,.2,1);}
+  .hero-slide.active{opacity:1;z-index:1;}
+  .hero-slide .ph{position:absolute;inset:0;}
+  .hero-slide .ph img{animation:kenburns 16s ease-in-out infinite alternate;}
+  .hero-slide:nth-child(2) .ph img{animation-delay:-5.3s;}
+  .hero-slide:nth-child(3) .ph img{animation-delay:-10.6s;}
+  @keyframes kenburns{0%{transform:scale(1);}100%{transform:scale(1.12);}}
+  .hero-content{position:relative;z-index:2;color:#fff;padding-bottom:88px;width:100%;}
+  .badge-trust{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);padding:8px 16px 8px 12px;border-radius:999px;font-size:12.5px;font-weight:500;margin-bottom:26px;backdrop-filter:blur(6px);}
+  .badge-trust i{width:15px;height:15px;color:var(--green-light);}
+  .hero h1{font-size:clamp(40px,6vw,76px);line-height:1.04;margin:0 0 22px;max-width:900px;}
+  .hero p.lead{font-size:19px;opacity:.92;margin:0 0 34px;max-width:520px;font-weight:400;}
+  .hero .btnrow{display:flex;gap:16px;flex-wrap:wrap;}
+  .hero-nav{position:relative;z-index:2;display:flex;gap:10px;margin-top:40px;}
+  .hero-nav button{width:26px;height:4px;border-radius:999px;background:rgba(255,255,255,.4);border:none;padding:0;cursor:pointer;transition:background .5s ease, width .5s cubic-bezier(.4,0,.2,1);}
+  .hero-nav button.active{background:#fff;width:42px;}
+  .scroll-cue{position:absolute;bottom:28px;right:32px;z-index:2;color:#fff;font-size:12px;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:.85;}
+  .scroll-cue .line{width:1px;height:36px;background:rgba(255,255,255,.6);animation:cue 1.8s infinite;}
+  @keyframes cue{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.1%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+  /* welcome */
+  .welcome{background:var(--coral-light);padding:96px 0;}
+  .welcome .inner{max-width:760px;margin:0 auto;text-align:center;}
+  .welcome .quotemark{font-family:'Fraunces';font-size:64px;color:var(--coral);line-height:1;margin:0 0 8px;}
+  .welcome h2{font-size:clamp(28px,3.4vw,40px);color:var(--coral-dark);margin:0 0 20px;line-height:1.15;}
+  .welcome p{font-size:17px;color:var(--ink-soft);margin:0 0 30px;line-height:1.7;}
+  .welcome .signature{font-family:'Fraunces';font-style:italic;font-size:15px;color:var(--coral-dark);margin-top:22px;}
+
+  /* stats */
+  .stats{background:var(--teal-dark);color:#fff;padding:64px 0;}
+  .stats .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;}
+  .stats .num{font-family:'Fraunces';font-size:clamp(34px,4vw,54px);font-weight:600;}
+  .stats .cap{font-size:14px;opacity:.75;margin-top:6px;}
+
+  section{padding:110px 0;}
+  .sec-head{max-width:640px;margin:0 0 48px;}
+  .sec-head.center{margin-left:auto;margin-right:auto;text-align:center;}
+  .eyebrow{color:var(--coral-dark);font-weight:600;font-size:13px;letter-spacing:.06em;text-transform:uppercase;font-family:'Inter';}
+  .sec-head h2{font-size:clamp(30px,3.6vw,46px);margin:10px 0 14px;color:var(--teal-dark);line-height:1.08;}
+  .sec-head p{color:var(--ink-soft);font-size:16.5px;margin:0;}
+
+  /* about */
+  .about{background:var(--paper);}
+  .about .wrap{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+  .about .ph{border-radius:22px;height:480px;box-shadow:var(--shadow);}
+  .about h2{font-size:clamp(28px,3vw,38px);color:var(--teal-dark);margin:0 0 18px;}
+  .about p{color:var(--ink-soft);font-size:17px;margin:0 0 26px;}
+  .chip-list{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 30px;padding:0;list-style:none;}
+  .chip-list li{background:#fff;color:var(--teal-dark);font-size:13.5px;font-weight:500;padding:9px 16px;border-radius:999px;border:1px solid var(--line);}
+
+  /* stories */
+  .stories{background:var(--cream);}
+  .story-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:26px;}
+  .story-card{position:relative;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);}
+  .story-card .ph{height:480px;}
+  .story-card:nth-child(2) .ph, .story-card:nth-child(3) .ph{height:480px;}
+  .story-card .content{position:absolute;left:0;right:0;bottom:0;padding:32px;z-index:2;color:#fff;}
+  .story-card .quote{font-family:'Fraunces';font-size:20px;font-weight:500;margin:0 0 12px;line-height:1.3;}
+  .story-card .who{font-size:13px;font-weight:600;opacity:.85;text-transform:uppercase;letter-spacing:.04em;}
+  .stories-cta{text-align:center;margin-top:48px;}
+
+  /* research */
+  .research{background:var(--paper);}
+  .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+  .news-card{background:#fff;border-radius:18px;padding:26px;border:1px solid var(--line);transition:transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s;}
+  .news-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
+  .news-card .meta{display:flex;gap:8px;align-items:center;margin-bottom:14px;}
+  .pill{font-size:11px;font-weight:600;padding:5px 12px;border-radius:999px;text-transform:uppercase;letter-spacing:.03em;font-family:'Inter';}
+  .pill-it{background:var(--coral-light);color:var(--coral-dark);}
+  .pill-world{background:var(--purple-light);color:var(--purple-dark);}
+  .pill-pub{background:#EEEDFE;color:#3C3489;}
+  .news-card .date{font-size:12px;color:var(--ink-soft);}
+  .news-card h3{font-size:17px;margin:0 0 10px;line-height:1.4;font-family:'Fraunces';font-weight:500;}
+  .news-card .src{font-size:13px;color:var(--ink-soft);}
+  .research-note{max-width:720px;margin:36px auto 0;text-align:center;font-size:13.5px;color:var(--ink-soft);background:#fff;border:1px dashed var(--line);border-radius:14px;padding:16px 22px;}
+
+  /* newsroom */
+  .newsroom{background:var(--cream);}
+  .post-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .post-card{border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 4px 16px rgba(29,35,30,.05);transition:transform .4s cubic-bezier(.16,1,.3,1);}
+  .post-card:hover{transform:translateY(-6px);}
+  .post-card .ph{height:150px;}
+  .post-card .body{padding:20px;}
+  .post-card .meta{display:flex;gap:8px;align-items:center;margin-bottom:10px;}
+  .pill-campaign{background:var(--coral-light);color:var(--coral-dark);}
+  .pill-event{background:var(--purple-light);color:var(--purple-dark);}
+  .pill-comms{background:#F1EFE8;color:#5F5E5A;}
+  .post-card h3{font-size:15px;margin:0 0 8px;line-height:1.4;font-weight:600;font-family:'Inter';}
+  .post-card p{font-size:13px;color:var(--ink-soft);margin:0;}
+  .newsroom-cta{text-align:center;margin-top:40px;}
+
+  /* events */
+  .events{padding-top:0;}
+  .events .wrap{display:grid;grid-template-columns:1.3fr .9fr;gap:24px;}
+  .event-banner{position:relative;border-radius:24px;overflow:hidden;min-height:340px;display:flex;align-items:flex-end;}
+  .event-banner .ph{position:absolute;inset:0;}
+  .event-content{position:relative;z-index:2;padding:40px;color:#fff;}
+  .tag-pill{display:inline-block;background:rgba(255,255,255,.18);font-size:12px;font-weight:600;padding:6px 14px;border-radius:999px;margin-bottom:16px;backdrop-filter:blur(6px);}
+  .event-content h3{font-size:clamp(24px,2.4vw,32px);margin:0 0 12px;}
+  .event-content p{margin:0 0 22px;opacity:.9;font-size:15px;max-width:420px;}
+  .campaign-card{background:var(--coral);color:#fff;border-radius:24px;padding:40px;display:flex;flex-direction:column;justify-content:center;}
+  .campaign-card h3{font-size:24px;margin:0 0 10px;}
+  .campaign-card p{margin:0 0 22px;opacity:.92;font-size:15px;}
+
+  /* help */
+  .help{background:var(--paper);}
+  .help-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .help-card{background:#fff;border-radius:18px;padding:32px 24px;text-align:left;transition:transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s;}
+  .help-card:hover{transform:translateY(-6px);box-shadow:var(--shadow);}
+  .help-card .icon{width:52px;height:52px;border-radius:14px;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;margin:0 0 20px;}
+  .help-card .icon i{width:24px;height:24px;}
+  .help-card h3{font-size:17px;margin:0 0 10px;font-family:'Fraunces';font-weight:500;}
+  .help-card p{font-size:14px;color:var(--ink-soft);margin:0 0 16px;}
+  .help-card .link{font-size:13.5px;font-weight:600;color:var(--coral-dark);display:inline-flex;align-items:center;gap:4px;}
+  .icon-inline{width:14px;height:14px;vertical-align:-2px;}
+  .btn i{width:16px;height:16px;}
+  .pill{display:inline-flex;align-items:center;gap:5px;}
+  .pill i{width:12px;height:12px;}
+  .chip-list li{display:inline-flex;align-items:center;gap:6px;}
+  .chip-list li i{width:14px;height:14px;}
+  .socials a{display:inline-flex;align-items:center;}
+  .socials i{width:15px;height:15px;}
+  footer .social-link{display:inline-flex;align-items:center;gap:6px;}
+  footer .social-link i{width:14px;height:14px;}
+
+  /* newsletter */
+  .newsletter{background:var(--teal-dark);color:#fff;text-align:center;position:relative;overflow:hidden;}
+  .newsletter h2{font-size:clamp(28px,3.4vw,42px);margin:0 0 14px;}
+  .newsletter p{opacity:.85;margin:0 0 30px;font-size:16px;}
+  .newsletter-form{display:flex;justify-content:center;gap:10px;max-width:460px;margin:0 auto;}
+  .newsletter-form input{flex:1;padding:16px 20px;border-radius:999px;border:none;font-size:14.5px;font-family:'Inter';}
+  .newsletter-form button{background:var(--coral);color:#fff;border:none;padding:16px 28px;border-radius:999px;font-weight:600;font-size:14.5px;cursor:pointer;transition:transform .3s;}
+  .newsletter-form button:hover{transform:translateY(-3px);}
+  .newsletter .fine{font-size:12px;opacity:.6;margin-top:18px;}
+
+  /* footer */
+  footer{background:#241A3D;color:#C3B8D6;padding:64px 0 28px;}
+  .footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;margin-bottom:44px;}
+  footer h4{color:#fff;font-size:14px;margin:0 0 18px;font-weight:600;font-family:'Inter';}
+  footer ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:11px;}
+  footer a{font-size:13.5px;opacity:.85;}
+  footer a:hover{opacity:1;text-decoration:underline;}
+  .footer-brand .logo{color:#fff;}
+  .footer-brand .logo .mark{background:var(--teal);}
+  .footer-brand p{font-size:13.5px;opacity:.7;max-width:280px;margin:14px 0 20px;}
+  .footer-badges{display:flex;gap:10px;flex-wrap:wrap;}
+  .footer-badges span{font-size:11px;border:1px solid #3A2C5C;padding:6px 12px;border-radius:8px;opacity:.8;}
+  .footer-bottom{border-top:1px solid #362852;padding-top:22px;display:flex;justify-content:space-between;font-size:12.5px;opacity:.65;flex-wrap:wrap;gap:10px;}
+
+  @media (max-width:900px){
+    nav.primary{display:none;}
+    .hero{margin-top:-72px;height:80vh;}
+    .stats .wrap{grid-template-columns:repeat(2,1fr);}
+    .about .wrap{grid-template-columns:1fr;gap:36px;}
+    .about .ph{height:320px;}
+    .story-grid{grid-template-columns:1fr;}
+    .story-card .ph, .story-card:nth-child(2) .ph, .story-card:nth-child(3) .ph{height:340px;}
+    .news-grid{grid-template-columns:1fr;}
+    .post-grid{grid-template-columns:repeat(2,1fr);}
+    .events .wrap{grid-template-columns:1fr;}
+    .help-grid{grid-template-columns:repeat(2,1fr);}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    section{padding:72px 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="tag-mock">BOZZA v2 — direzione visiva, non design finale</div>
+
+<div class="topbar">
+  <div class="wrap">
+    <span>Associazione DDX3X O.D.V. · iscritta al RUNTS</span>
+    <div class="socials">
+      <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+      <a href="#" aria-label="Instagram"><i data-lucide="instagram"></i></a>
+      <a href="#">IT / EN</a>
+    </div>
+  </div>
+</div>
+
+<header class="main" id="siteHeader">
+  <div class="wrap">
+    <a class="logo" href="#"><span class="mark">DX3</span> Associazione DDX3X</a>
+    <nav class="primary">
+      <a href="#benvenuto">Appena diagnosticati?</a>
+      <a href="#sindrome">La sindrome</a>
+      <a href="#storie">Storie</a>
+      <a href="#ricerca">La ricerca</a>
+      <a href="#news">Novità</a>
+      <a href="#aiuta">Come aiutare</a>
+    </nav>
+    <a class="btn btn-primary" href="#dona">Dona ora</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-slider" id="heroSlider">
+    <div class="hero-slide active">
+      <div class="ph dark"><img src="https://images.pexels.com/photos/5163534/pexels-photo-5163534.jpeg?auto=compress&cs=tinysrgb&w=1800" alt="Famiglia insieme all'aperto"></div>
+    </div>
+    <div class="hero-slide">
+      <div class="ph dark"><img src="https://images.pexels.com/photos/6149192/pexels-photo-6149192.jpeg?auto=compress&cs=tinysrgb&w=1800" alt="Famiglia di più generazioni che si abbraccia"></div>
+    </div>
+    <div class="hero-slide">
+      <div class="ph dark"><img src="https://images.pexels.com/photos/4617316/pexels-photo-4617316.jpeg?auto=compress&cs=tinysrgb&w=1800" alt="Famiglia felice che si abbraccia"></div>
+    </div>
+  </div>
+  <div class="wrap hero-content">
+    <span class="badge-trust"><i data-lucide="badge-check"></i>Trasparenza certificata — bilanci pubblici</span>
+    <h1 class="display">Insieme per capire, sostenere e dare voce</h1>
+    <p class="lead">Un punto di riferimento per le famiglie e un ponte con la ricerca scientifica internazionale sulla Sindrome DDX3X.</p>
+    <div class="btnrow">
+      <a class="btn btn-primary" href="#dona">Dona ora</a>
+      <a class="btn btn-outline" href="#storie">Leggi le nostre storie</a>
+    </div>
+    <div class="hero-nav" id="heroNav">
+      <button class="active" aria-label="Immagine 1"></button>
+      <button aria-label="Immagine 2"></button>
+      <button aria-label="Immagine 3"></button>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scorri</span><span class="line"></span></div>
+</section>
+
+<section class="welcome" id="benvenuto">
+  <div class="wrap">
+    <div class="inner reveal" data-reveal>
+      <div class="quotemark">"</div>
+      <h2 class="display">Avete appena ricevuto una diagnosi?</h2>
+      <p>Se vostra figlia o vostro figlio ha appena ricevuto una diagnosi di Sindrome DDX3X, benvenuti. Sappiamo che in questo momento potete sentirvi spaventati o disorientati — o forse sollevati, per aver finalmente trovato una risposta a tante domande. In ogni caso, avete trovato la vostra tribù: qui ci siamo già passati, e non siete soli.</p>
+      <a class="btn btn-primary" href="#">Leggi la lettera di benvenuto delle famiglie fondatrici <i data-lucide="arrow-right"></i></a>
+      <div class="signature">— Il direttivo dell'Associazione DDX3X O.D.V.</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats reveal-stagger" data-reveal>
+  <div class="wrap">
+    <div><div class="num" data-count="120">0</div><div class="cap">famiglie nella rete</div></div>
+    <div><div class="num" data-count="8">0</div><div class="cap">anni di attività</div></div>
+    <div><div class="num" data-count="3">0</div><div class="cap">conferenze internazionali</div></div>
+    <div><div class="num" data-count="40">0</div><div class="cap">pubblicazioni seguite</div></div>
+  </div>
+</div>
+
+<section class="about" id="sindrome">
+  <div class="wrap">
+    <div class="ph reveal" data-reveal>
+      <img src="https://images.pexels.com/photos/26771433/pexels-photo-26771433.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Bambina sorridente all'aperto">
+    </div>
+    <div class="reveal" data-reveal>
+      <span class="eyebrow">La sindrome</span>
+      <h2>Cos'è la Sindrome DDX3X</h2>
+      <p>Una spiegazione chiara, in linguaggio semplice, di cosa significa una diagnosi DDX3X — pensata per un genitore che la legge per la prima volta, non per uno specialista.</p>
+      <ul class="chip-list">
+        <li><i data-lucide="info"></i>Cos'è</li>
+        <li><i data-lucide="stethoscope"></i>Come si arriva alla diagnosi</li>
+        <li><i data-lucide="activity"></i>Terapie di supporto</li>
+        <li><i data-lucide="help-circle"></i>Domande frequenti</li>
+      </ul>
+      <a class="btn btn-outline-dark" href="#">Scopri di più <i data-lucide="arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="stories" id="storie">
+  <div class="wrap">
+    <div class="sec-head center reveal" data-reveal>
+      <span class="eyebrow">Le nostre storie</span>
+      <h2>Voci vere, percorsi reali</h2>
+      <p>Testimonianze di famiglie che convivono ogni giorno con la sindrome, tra difficoltà, forza e piccoli grandi traguardi.</p>
+    </div>
+    <div class="story-grid reveal-stagger" data-reveal>
+      <a class="story-card zoom" href="#">
+        <div class="ph dark"><img src="https://images.pexels.com/photos/4609046/pexels-photo-4609046.jpeg?auto=compress&cs=tinysrgb&w=1000" alt="Bambina abbraccia i genitori"></div>
+        <div class="content">
+          <p class="quote">"Il giorno della diagnosi ci è crollato il mondo addosso. Oggi sappiamo di non essere soli."</p>
+          <div class="who">La storia di Martina</div>
+        </div>
+      </a>
+      <a class="story-card zoom" href="#">
+        <div class="ph dark"><img src="https://images.pexels.com/photos/15150635/pexels-photo-15150635.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Bambino che gioca sorridente"></div>
+        <div class="content">
+          <p class="quote">"Ogni piccolo progresso è una vittoria enorme."</p>
+          <div class="who">La storia di Leonardo</div>
+        </div>
+      </a>
+      <a class="story-card zoom" href="#">
+        <div class="ph dark"><img src="https://images.pexels.com/photos/6149192/pexels-photo-6149192.jpeg?auto=compress&cs=tinysrgb&w=900" alt="Famiglia di più generazioni che si abbraccia"></div>
+        <div class="content">
+          <p class="quote">"L'associazione ci ha dato le parole giuste da usare con i medici."</p>
+          <div class="who">La storia di Sofia</div>
+        </div>
+      </a>
+    </div>
+    <div class="stories-cta reveal" data-reveal>
+      <a class="btn btn-outline-dark" href="#">Vuoi raccontare la tua storia? <i data-lucide="arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="research" id="ricerca">
+  <div class="wrap">
+    <div class="sec-head center reveal" data-reveal>
+      <span class="eyebrow">La ricerca</span>
+      <h2>Ultime dalla ricerca scientifica</h2>
+      <p>Aggregazione automatica di fonti internazionali, con link diretto all'originale — nessuna sintesi IA rivolta alle famiglie.</p>
+    </div>
+    <div class="news-grid reveal-stagger" data-reveal>
+      <div class="news-card">
+        <div class="meta"><span class="pill pill-world"><i data-lucide="globe"></i>Nel mondo</span><span class="date">Lug 2026</span></div>
+        <h3>Nuovo trial clinico di storia naturale avviato negli Stati Uniti</h3>
+        <div class="src">Fonte: ClinicalTrials.gov</div>
+      </div>
+      <div class="news-card">
+        <div class="meta"><span class="pill pill-pub"><i data-lucide="file-text"></i>Pubblicazione</span><span class="date">Giu 2026</span></div>
+        <h3>Effetti specifici per genere delle mutazioni DDX3X sulla via Wnt</h3>
+        <div class="src">Fonte: Europe PMC</div>
+      </div>
+      <div class="news-card">
+        <div class="meta"><span class="pill pill-it"><i data-lucide="flag"></i>In Italia</span><span class="date">Mag 2026</span></div>
+        <h3>Il comitato scientifico italiano avvia una nuova collaborazione con...</h3>
+        <div class="src">Fonte: Associazione DDX3X</div>
+      </div>
+    </div>
+    <div class="research-note reveal" data-reveal>Nota di progetto: sezione alimentata via API (ClinicalTrials.gov, Europe PMC, NIH RePORTER) su cadenza automatica. Ogni card è un aggregato con link diretto alla fonte — il rischio medico-legale riguarda un chatbot che interpreta, non l'elenco di fonti verificabili.</div>
+  </div>
+</section>
+
+<section class="newsroom" id="news">
+  <div class="wrap">
+    <div class="sec-head center reveal" data-reveal>
+      <span class="eyebrow">Novità</span>
+      <h2>Cosa succede in associazione</h2>
+      <p>Comunicati, campagne ed eventi pubblicati direttamente dai volontari — contenuti propri, non aggregati.</p>
+    </div>
+    <div class="post-grid reveal-stagger" data-reveal>
+      <div class="post-card">
+        <div class="ph"><img src="https://images.pexels.com/photos/15950036/pexels-photo-15950036.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bambino che ride felice"></div>
+        <div class="body">
+          <div class="meta"><span class="pill pill-campaign"><i data-lucide="egg"></i>Campagna</span><span class="date">Feb 2026</span></div>
+          <h3>Campagna di Pasqua 2026! Più uova, più ricerca</h3>
+          <p>La raccolta fondi è attiva: scopri come partecipare.</p>
+        </div>
+      </div>
+      <div class="post-card">
+        <div class="ph"><img src="https://images.pexels.com/photos/18559733/pexels-photo-18559733.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Bambini che giocano insieme in strada"></div>
+        <div class="body">
+          <div class="meta"><span class="pill pill-event"><i data-lucide="calendar"></i>Evento</span><span class="date">Gen 2026</span></div>
+          <h3>3ª Conferenza Internazionale — registrati ora</h3>
+          <p>5–6 maggio 2026, iscrizioni aperte per famiglie e medici.</p>
+        </div>
+      </div>
+      <div class="post-card">
+        <div class="ph"><img src="https://images.pexels.com/photos/4617316/pexels-photo-4617316.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Famiglia felice che si abbraccia"></div>
+        <div class="body">
+          <div class="meta"><span class="pill pill-campaign"><i data-lucide="gift"></i>Campagna</span><span class="date">Nov 2025</span></div>
+          <h3>Sostieni l'Associazione DDX3X con il tuo dono di Natale</h3>
+          <p>Un bilancio della raccolta fondi 2025 e i prossimi obiettivi.</p>
+        </div>
+      </div>
+      <div class="post-card">
+        <div class="ph"><img src="https://images.pexels.com/photos/6476254/pexels-photo-6476254.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Riunione dei volontari"></div>
+        <div class="body">
+          <div class="meta"><span class="pill pill-comms"><i data-lucide="message-square"></i>Comunicato</span><span class="date">Ott 2025</span></div>
+          <h3>Verbale e rendicontazione dell'assemblea annuale dei soci</h3>
+          <p>Trasparenza sulle attività e sul bilancio dell'associazione.</p>
+        </div>
+      </div>
+    </div>
+    <div class="newsroom-cta reveal" data-reveal>
+      <a class="btn btn-outline-dark" href="#">Vedi tutte le novità <i data-lucide="arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="events" id="eventi">
+  <div class="wrap reveal-stagger" data-reveal>
+    <div class="event-banner">
+      <div class="ph dark"><img src="https://images.pexels.com/photos/8761540/pexels-photo-8761540.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Pubblico che ascolta un relatore in conferenza"></div>
+      <div class="event-content">
+        <span class="tag-pill">Evento in evidenza</span>
+        <h3 class="display">3ª Conferenza Internazionale DDX3X</h3>
+        <p>5–6 maggio 2026 · Ricercatori, medici e famiglie da tutto il mondo si incontrano per fare il punto sulla ricerca.</p>
+        <a class="btn btn-light" href="#">Registrati ora <i data-lucide="arrow-right"></i></a>
+      </div>
+    </div>
+    <div class="campaign-card">
+      <h3 class="display">Campagna in corso</h3>
+      <p>Più uova, più ricerca — la raccolta fondi di Pasqua 2026 è attiva.</p>
+      <a class="btn btn-light" href="#">Partecipa <i data-lucide="arrow-right"></i></a>
+    </div>
+  </div>
+</section>
+
+<section class="help" id="aiuta">
+  <div class="wrap">
+    <div class="sec-head center reveal" data-reveal>
+      <span class="eyebrow">Come aiutare</span>
+      <h2>Ogni contributo fa la differenza</h2>
+    </div>
+    <div class="help-grid reveal-stagger" data-reveal>
+      <div class="help-card">
+        <div class="icon"><i data-lucide="hand-coins"></i></div>
+        <h3>Dona ora</h3>
+        <p>Sostieni direttamente la ricerca e le attività dell'associazione.</p>
+        <a class="link" href="#">Dona <i data-lucide="arrow-right" class="icon-inline"></i></a>
+      </div>
+      <div class="help-card">
+        <div class="icon"><i data-lucide="percent"></i></div>
+        <h3>5×1000</h3>
+        <p>Non ti costa nulla: destina il tuo 5×1000 in dichiarazione dei redditi.</p>
+        <a class="link" href="#">Come fare <i data-lucide="arrow-right" class="icon-inline"></i></a>
+      </div>
+      <div class="help-card">
+        <div class="icon"><i data-lucide="user-plus"></i></div>
+        <h3>Diventa socio</h3>
+        <p>Entra a far parte della rete di famiglie e volontari.</p>
+        <a class="link" href="#">Iscriviti <i data-lucide="arrow-right" class="icon-inline"></i></a>
+      </div>
+      <div class="help-card">
+        <div class="icon"><i data-lucide="megaphone"></i></div>
+        <h3>Raccogli fondi</h3>
+        <p>Organizza una raccolta fondi personale per l'associazione.</p>
+        <a class="link" href="#">Scopri come <i data-lucide="arrow-right" class="icon-inline"></i></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter" id="dona">
+  <div class="wrap reveal" data-reveal>
+    <h2 class="display">Resta aggiornato</h2>
+    <p>Novità dalla ricerca, eventi e storie della community — una email al mese, niente di più.</p>
+    <div class="newsletter-form">
+      <input type="email" placeholder="La tua email">
+      <button>Iscrivimi</button>
+    </div>
+    <p class="fine">Puoi disiscriverti in qualsiasi momento. Leggi la nostra informativa privacy.</p>
+  </div>
+</section>
+
+<footer id="contatti">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo"><span class="mark">DX3</span></div>
+        <p>Un nuovo inizio — insieme per capire, sostenere e dare voce alla Sindrome DDX3X.</p>
+        <div class="footer-badges">
+          <span><i data-lucide="shield-check" class="icon-inline"></i> OdV</span>
+          <span><i data-lucide="badge-check" class="icon-inline"></i> RUNTS</span>
+          <span><i data-lucide="file-text" class="icon-inline"></i> Bilanci pubblici</span>
+        </div>
+      </div>
+      <div>
+        <h4>Associazione</h4>
+        <ul>
+          <li><a href="#">Chi siamo</a></li>
+          <li><a href="#">Missione e valori</a></li>
+          <li><a href="#">Statuto</a></li>
+          <li><a href="#">Bilanci</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Sindrome e ricerca</h4>
+        <ul>
+          <li><a href="#">La sindrome</a></li>
+          <li><a href="#">Diagnosi</a></li>
+          <li><a href="#">Trattamenti e terapie</a></li>
+          <li><a href="#">Pubblicazioni</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contatti</h4>
+        <ul>
+          <li><a class="social-link" href="#"><i data-lucide="mail"></i>Scrivici</a></li>
+          <li><a class="social-link" href="#"><i data-lucide="facebook"></i>Facebook</a></li>
+          <li><a class="social-link" href="#"><i data-lucide="instagram"></i>Instagram</a></li>
+          <li><a href="#">Privacy policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Associazione DDX3X O.D.V. — Tutti i diritti riservati</span>
+      <span>Wireframe di progetto — versione bozza</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  if(window.lucide){ lucide.createIcons(); }
+
+  var slides = document.querySelectorAll('#heroSlider .hero-slide');
+  var dots = document.querySelectorAll('#heroNav button');
+  var current = 0;
+  var heroTimer;
+  function goToSlide(i){
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = i;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+  function startHeroTimer(){
+    heroTimer = setInterval(function(){ goToSlide((current + 1) % slides.length); }, 6000);
+  }
+  dots.forEach(function(dot, i){
+    dot.addEventListener('click', function(){
+      if(i === current) return;
+      goToSlide(i);
+      clearInterval(heroTimer);
+      startHeroTimer();
+    });
+  });
+  if(slides.length){ startHeroTimer(); }
+
+  var header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', function(){
+    if(window.scrollY > 40){ header.classList.add('scrolled'); }
+    else{ header.classList.remove('scrolled'); }
+  });
+
+  var revealEls = document.querySelectorAll('[data-reveal]');
+  var counted = new WeakSet();
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('in');
+        if(entry.target.classList.contains('stats') && !counted.has(entry.target)){
+          counted.add(entry.target);
+          entry.target.querySelectorAll('[data-count]').forEach(function(el){
+            var target = parseInt(el.getAttribute('data-count'), 10);
+            var start = 0;
+            var dur = 1200;
+            var t0 = performance.now();
+            function step(t){
+              var p = Math.min((t - t0) / dur, 1);
+              var eased = 1 - Math.pow(1 - p, 3);
+              el.textContent = Math.round(start + (target - start) * eased) + (p >= 1 ? '+' : '');
+              if(p < 1){ requestAnimationFrame(step); }
+            }
+            requestAnimationFrame(step);
+          });
+        }
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.18 });
+  revealEls.forEach(function(el){ io.observe(el); });
+</script>
+
+</body>
+</html>
